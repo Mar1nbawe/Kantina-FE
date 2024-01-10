@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useMapStore from "../../stores/MapStore";
+import {useMapStore} from "../../stores/MapStore";
 
 const props = defineProps<{
     x: string;
