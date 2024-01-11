@@ -1,39 +1,26 @@
 <script setup lang="ts">
-/* 
-
-
-import { useUserStore } from "../scripts/userStore"; */
+import { useMeStore } from "@/stores/MeStore";
 import { router } from "../main";
 import {api} from "../services/api/index"
 import { ref } from "vue";
-let emailref: string = "";
 
-let passwordref: string = "";
+const emailref = ref<string>("");
+const passwordref = ref<string>("");
+const {setId} = useMeStore();
 
 const axiosstatus = ref("");
-/* const {setUserData} = useUserStore(); */
 
-function postLogin(email: string, password: string) {
+const postLogin = async (email: string, password: string) => {
   const path = "/login";
 
-  api
-    .post(path, { email: email, password: password, })
-    .then((response) => {
-      if (response.data["status"] == "success") {
-        const data = {
-          id: response.data['id'],
-          firstname: response.data['firstname'],
-          lastname: response.data['lastname'],
-          type: response.data['type']
-        };
-      /*   setUserData(data); */
-        document.cookie += `user_data=${JSON.stringify(data)}`
-        router.push("/timecards");
-      } else {
-        axiosstatus.value = response.data["status"];
-      }
-    })
-    .catch((error) => console.log(error));
+  const response = await api.post(path, {email: email, password: password});
+  if (response.status === 200) {
+      setId(response.data['user_id']);
+      router.push("/");
+  }
+  else {
+    axiosstatus.value = response.status;
+  }
 }
 </script>
 
@@ -62,7 +49,7 @@ function postLogin(email: string, password: string) {
         >
           Login
         </button>
-        <p v-if="axiosstatus.value == 'failed'">Invalid Credentials</p>
+        <p v-if="axiosstatus == 'failed'">Invalid Credentials</p>
       </form>
     </div>
   </div>
