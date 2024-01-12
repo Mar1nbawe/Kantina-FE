@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Map from './components/map';
-import { useMapStore } from './stores/MapStore';
-import { mockTables } from './mocks/tables';
-import base64 from './components/defaultMap';
-
-const {loadPoints, loadMapFromBase64} = useMapStore();
-
-loadPoints(mockTables);
-loadMapFromBase64(base64);
+import { useMeStore } from './stores/MeStore';
+const {getName} = useMeStore();
 </script>
 
 <template>
-  <Map />
+  <nav>
+        <h1>Test of {{ getName() !== null ? getName() : "Guest" }}</h1>
+        <RouterLink to="/">Home</RouterLink>
+  </nav>
+  <Suspense>
+    <RouterView />
+  </Suspense>
 </template>
