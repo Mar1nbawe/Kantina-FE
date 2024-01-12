@@ -8,7 +8,7 @@ import { useMeStore } from '@/stores/MeStore';
 import { router } from '@/main';
 
 const {loadPoints, loadMapFromBase64} = useMapStore();
-const {setMe, name} = useMeStore();
+const {setMe} = useMeStore();
 
 const response = await api.get('/me');
 if (response.status === 401) {
@@ -16,7 +16,6 @@ if (response.status === 401) {
 }
 else {
   setMe(response.data);
-  console.log(name);
 }
 
 loadPoints(mockTables);

@@ -13,8 +13,36 @@ export const useMeStore = defineStore('me', () => {
         id.value = value;
     }
 
+    const getName = () => {
+        return name.value;
+    }
+
+    const getData = () => {
+        return {
+            name: name.value,
+            type: type.value,
+            points: points.value,
+            reservations: reservations.value,
+            id: id.value
+        }
+    }
+
+    const getId = () => {
+        return id.value;
+    }
+
+    const getType = () => {
+        return type.value;
+    }
+
+    const getPoints = () => {
+        return points.value;
+    }
+    const getReservations = () => {
+        return reservations.value;
+    }
+
     const setMe = (data: any) => {
-        console.log(data);
         if (data && data != null) {
             console.log(data);
             id.value = data.id;
@@ -33,5 +61,5 @@ export const useMeStore = defineStore('me', () => {
         reservations.value = null;
     }
 
-    return {id, name, type, points, reservations, setMe, erase, setId};
+    return {getData, getId, getName, getType, getPoints, getReservations, setMe, erase, setId};
 });

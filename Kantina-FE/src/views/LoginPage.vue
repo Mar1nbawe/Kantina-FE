@@ -8,7 +8,7 @@ const emailref = ref<string>("");
 const passwordref = ref<string>("");
 const {setId} = useMeStore();
 
-const axiosstatus = ref("");
+const axiosstatus = ref<number | null>(null);
 
 const postLogin = async (email: string, password: string) => {
   const path = "/login";
@@ -49,7 +49,7 @@ const postLogin = async (email: string, password: string) => {
         >
           Login
         </button>
-        <p v-if="axiosstatus == 'failed'">Invalid Credentials</p>
+        <p v-if="axiosstatus != null && axiosstatus !== 200">Invalid Credentials</p>
       </form>
     </div>
   </div>
