@@ -44,7 +44,6 @@ export const useMeStore = defineStore('me', () => {
 
     const setMe = (data: any) => {
         if (data && data != null) {
-            console.log(data);
             id.value = data.id;
             name.value = data.name;
             type.value = data.type;
