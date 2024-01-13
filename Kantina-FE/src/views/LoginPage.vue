@@ -15,7 +15,6 @@ const postLogin = async (email: string, password: string) => {
 
   const response = await api.post(path, {email: email, password: password});
   if (response.status === 200) {
-      setId(response.data['user_id']);
       router.push("/");
   }
   else {
