@@ -1,12 +1,13 @@
-import './index.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
+import './index.css'
 import App from './App.vue'
 import { createRouter, createWebHistory } from "vue-router";
-import LoginPageVue from './views/LoginPage.vue';
-import HomeViewVue from './views/HomeView.vue';
+
+import LoginPageVue from '@/views/LoginPage.vue';
+import  MapView  from '@/components/map/MapView.vue'
 
 const app = createApp(App)
 
@@ -18,8 +19,10 @@ export const router = createRouter({
             component: LoginPageVue
         },
         {
-            path: "/",
-            component: HomeViewVue
+
+            path: '/map',
+            component : MapView
+
         }
     ]
 })
