@@ -3,12 +3,12 @@ import MarkerLayer from './MarkerLayer.vue';
 import MapLayer from './MapLayer.vue';
 import { useMapStore } from '@/stores/MapStore';
 
-const {getPoints, getMap} = useMapStore();
+const {points, map} = useMapStore();
 </script>
 <template>
     <!-- To adjust Width & Height when the case -->
     <div id="map" style="width: 1000px; height: 900px; position: relative;">
-        <MarkerLayer v-bind:points="getPoints()" />
-        <MapLayer :svgMap="getMap()" />
+        <MarkerLayer :points="points" />
+        <MapLayer :svgMap="map" />
     </div>
 </template>

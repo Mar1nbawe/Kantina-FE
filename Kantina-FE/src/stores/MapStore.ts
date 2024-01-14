@@ -24,25 +24,5 @@ export const useMapStore = defineStore('mapData', () => {
         adminMode.value = false;
     }
 
-    const getSelectedDate = () => {
-        return selectedDate.value;
-    }
-
-    const isAdminMode = () => {
-        return adminMode.value;
-    }
-
-    const getPoints = () => {
-        return points.value
-    }
-
-    const getMap = () => {
-        return map.value
-    }
-
-    const setSelectedDate = (value: Date) => {
-        selectedDate.value = value;
-    }
-
-    return {getPoints, getMap, loadPoints, loadMapFromBase64, isAdminMode, startAdminMode, stopAdminMode, getSelectedDate, setSelectedDate}
+    return {points, map, loadPoints, loadMapFromBase64, adminMode, startAdminMode, stopAdminMode, selectedDate}
 })

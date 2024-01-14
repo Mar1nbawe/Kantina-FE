@@ -6,7 +6,7 @@ export type Reservation = {
     user?: User;
     tableId: number;
     table?: any;
-    startAt: Date;
-    endAt: Date;
+    startDate: Date;
+    endDate: Date;
     status: string;
 }
