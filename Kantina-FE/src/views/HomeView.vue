@@ -10,6 +10,7 @@ import { router } from '@/main'
 import { ref } from 'vue'
 import ReservationTable from '@/components/ReservationTable.vue'
 import { useMarkerStore } from '@/stores/MarkerStore'
+import axios from 'axios'
 
 const { loadPoints, loadMapFromBase64, getSelectedDate, setSelectedDate } = useMapStore()
 const { setMe } = useMeStore()
@@ -23,6 +24,7 @@ const onDateChange = (event: Event) => {
   setSelectedDate(new Date((event.target as HTMLInputElement).value))
 }
 
+console.log("THIS IS THE RESERVATIONS" + useMeStore().getReservations())
 
 const axiosstatus = ref<number | null>(null);
 const getConfirm = async (id: number, reservstatus: String) => {
@@ -46,12 +48,13 @@ const getConfirm = async (id: number, reservstatus: String) => {
   }
 }
 
-const postConfirm = async (userId: number | null, tableId: number, startAt: Date) => {
+const postConfirm = async (userId: number | null, tableId: number, startAt: string) => {
+  startAt = startAt.replace('T', ' ').replace('Z', '').replace('.000', '')
   console.log(userId, tableId, startAt)
   const path = '/reservations/make'
-  const response = await api.post(path, {user_id: userId, table_id: tableId, start_at: startAt, end_at: new Date()})
+  const response = await api.post(path, {user_id: userId, table_id: tableId, start_at: startAt, end_at: startAt})
   if (response.status === 200) {
-    console.log("success")
+    console.log(axiosstatus.value)
   } else {
     axiosstatus.value = response.status
   }
@@ -182,16 +185,10 @@ loadMapFromBase64(base64)
                 class="bg-[#d5f8f2] border-[#b9e3d9] rounded-md w-[95%] h-[100%] p-2 m-2 flex flex-row justify-between items-center"
               >
                 <div>
-                  <span class="font-bold">Table {{ reservation.id }}</span>
+                  <span class="font-bold">Table {{ reservation.tableId }}</span>
                   <span class="ml-5 font-semibold"> {{ reservation.status }}</span>
                   <br />
                   {{ reservation.startDate }}
-                </div>
-                <div
-                  class="bg-[#8ee1cc] m-2 w-min pl-2 pr-2 h-min justify-center"
-                  @click="markerReservationOpen(markerStore.id)"
-                >
-                  Edit
                 </div> 
               </div>
             </div>
@@ -211,7 +208,7 @@ loadMapFromBase64(base64)
         </div>  
           <div class="flex flex-row p-5">
             <div  class="bg-[#8ee1cc] m-2 w-min pl-2 pr-2 h-min justify-center"
-           @click="postConfirm(useMeStore().getId(), markerStore.id, getSelectedDate() )">Confirm</div>
+           @click="postConfirm(useMeStore().getId(), markerStore.id, getSelectedDate().toISOString())">Confirm</div>
           <div class="bg-[#dd8d8d] m-2 w-min pl-2 pr-2 h-min justify-center"
           @click="markerStore.chosen = false">Cancel</div>
           </div>
