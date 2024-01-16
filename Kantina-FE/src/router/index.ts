@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import  MapView  from '../views/MapView.vue'
+import  MapView  from '@/components/map/Map.vue'
 import LoginPageVue from '@/components/LoginPage.vue'
 
 export const router = createRouter({
