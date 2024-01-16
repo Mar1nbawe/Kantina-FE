@@ -3,6 +3,7 @@ import { useMeStore } from "@/stores/MeStore";
 import { router } from "../main";
 import {api} from "../services/api/index"
 import { ref } from "vue";
+import { isReadonlyKeywordOrPlusOrMinusToken } from "typescript";
 
 const emailref = ref<string>("");
 const passwordref = ref<string>("");
@@ -21,6 +22,18 @@ const postLogin = async (email: string, password: string) => {
   else {
     axiosstatus.value = response.status;
   }
+}
+
+const postCreate = async(email:string, password:string) => {
+  const path = "/register"
+ const response = await api.post(path, {email: email, password: password})
+ if (response.status === 200)
+ {
+  router.push("/");
+ }
+ else {
+  axiosstatus.value = response.status
+ }
 }
 </script>
 
@@ -51,6 +64,13 @@ const postLogin = async (email: string, password: string) => {
           @click.prevent="postLogin(emailref, passwordref)"
         >
           Login
+        </button>
+      
+        <button class=" w-auto h-auto justify-center items-center bg-[#8ee1cc] text-[#002926] mt-10 pl-3 pr-3 font-semibold"
+          type="submit"
+          @click.prevent="postCreate(emailref, passwordref)"
+        >
+          Create Account
         </button>
     </div>
   </div>
