@@ -17,14 +17,11 @@ const { setMe } = useMeStore()
 
 
 const markerStore = useMarkerStore()
-const markerdata = markerStore.getData();
 
 const onDateChange = (event: Event) => {
   console.log((event.target as HTMLInputElement).value)
   setSelectedDate(new Date((event.target as HTMLInputElement).value))
 }
-
-console.log("THIS IS THE RESERVATIONS" + useMeStore().getReservations())
 
 const axiosstatus = ref<number | null>(null);
 const getConfirm = async (id: number, reservstatus: String) => {
@@ -46,6 +43,7 @@ const getConfirm = async (id: number, reservstatus: String) => {
   } else {
     axiosstatus.value = response.status
   }
+  location.reload()
 }
 
 const postConfirm = async (userId: number | null, tableId: number, startAt: string) => {
@@ -58,6 +56,7 @@ const postConfirm = async (userId: number | null, tableId: number, startAt: stri
   } else {
     axiosstatus.value = response.status
   }
+  location.reload()
 }
 
 
@@ -108,7 +107,17 @@ if (response.status === 401) {
   setMe(response.data)
   console.log(response.data)
 }
+
+const reservresponse = await api.get('/reservations')
+if(reservresponse.status === 200 && useMeStore().getType() == 'admin'){
+  useMeStore().setReservations(reservresponse.data)
+  console.log("This is the: "+ reservresponse.data.reservations)
+}
+
 loadMapFromBase64(base64)
+
+console.log(useMeStore().getReservations())
+
 
 </script>
 
@@ -136,7 +145,7 @@ loadMapFromBase64(base64)
                 class="bg-[#d5f8f2] border-[#b9e3d9] rounded-md w-[95%] h-[100%] p-2 m-2 flex flex-row justify-between items-center"
               >
                 <div>
-                  <span class="font-bold">Table {{ reservation.tableId }}</span>
+                  <span class="font-bold">Table {{ reservation.table_id  }} | Account ID {{ reservation.account_id }}</span>
                   <span class="ml-5 font-semibold"> {{ reservation.status }}</span>
                   <br />
                   {{ reservation.startDate }}

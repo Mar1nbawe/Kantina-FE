@@ -42,6 +42,11 @@ export const useMeStore = defineStore('me', () => {
         return reservations.value;
     }
 
+    const setReservations = (data: any) => {
+        if(data && data != null)
+        reservations.value = data.reservations
+    }
+
     const setMe = (data: any) => {
         if (data && data != null) {
             id.value = data.id;
@@ -60,5 +65,5 @@ export const useMeStore = defineStore('me', () => {
         reservations.value = null;
     }
 
-    return {getData, getId, getName, getType, getPoints, getReservations, setMe, erase, setId};
+    return {getData, getId, getName, getType, getPoints, getReservations, setMe, erase, setId, setReservations};
 });
